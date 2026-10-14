@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VEILORA — ما تبقّى من المئة</title>
+<meta name="author" content="Sedra Al-Saudi">
+<meta name="copyright" content="© 2026 Sedra Al-Saudi. All Rights Reserved.">
+<meta name="description" content="VEILORA — تجربة تفاعلية غامضة للتعلّم من القرارات المالية.">
+<style>
+:root{--bg:#080b18;--panel:#11162b;--panel2:#171d38;--gold:#e4c66d;--violet:#a998e8;--blue:#79a9e8;--text:#f4f0e7;--muted:#b9b8c8;--line:#343a5a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 10%,#202044,transparent 35%),radial-gradient(circle at 85% 80%,#24153d,transparent 38%),var(--bg);font-family:"Segoe UI",Tahoma,Arial,sans-serif;color:var(--text);min-height:100vh}
+#app{max-width:920px;margin:auto;padding:22px}.shell{min-height:720px;border:1px solid #303653;border-radius:28px;background:linear-gradient(145deg,rgba(17,22,43,.97),rgba(12,15,31,.98));box-shadow:0 30px 90px #0008;overflow:hidden;position:relative}
+.stars{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle at 12% 16%,#fff 0 1px,transparent 2px),radial-gradient(circle at 78% 22%,#e4c66d 0 1px,transparent 2px),radial-gradient(circle at 63% 78%,#a998e8 0 1px,transparent 2px),radial-gradient(circle at 25% 82%,#fff 0 1px,transparent 2px);opacity:.45}
+.content{position:relative;z-index:2;padding:30px}.bar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:28px}.stage{color:#aaa8bf;font-size:13px;letter-spacing:.08em}.balance{border:1px solid #65572f;color:var(--gold);background:#15172a;border-radius:30px;padding:8px 15px;font-weight:800}
+.symbol{width:46px;height:46px;border:1px solid #b89d58;border-radius:50%;display:grid;place-items:center;color:var(--gold);font-size:21px;margin-bottom:18px}
+h1{font-size:clamp(30px,6vw,52px);line-height:1.2;margin:0 0 16px}h2{font-size:clamp(25px,5vw,38px);line-height:1.3;margin:0 0 14px}p{line-height:2;color:var(--muted);font-size:16px}
+.quote{margin:20px 0;padding:17px 19px;border-right:3px solid var(--gold);background:#ffffff08;border-radius:12px;line-height:2;color:#e2ddea}
+.box{width:220px;height:165px;margin:30px auto;border:2px solid #b89d58;border-radius:17px;background:linear-gradient(145deg,#2a2443,#111629);display:grid;place-items:center;box-shadow:0 20px 55px #0008;position:relative;cursor:pointer;transition:.25s}.box:hover{transform:translateY(-5px) rotate(-1deg)}.box:before{content:"";position:absolute;width:74px;height:74px;border:2px solid #b89d58;border-radius:50%}.box span{font-size:42px;color:var(--gold);z-index:1}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}.grid.two{grid-template-columns:repeat(2,1fr)}button{font:inherit;color:var(--text);background:linear-gradient(145deg,#191f39,#12172b);border:1px solid var(--line);border-radius:15px;padding:16px;min-height:58px;cursor:pointer;text-align:right;transition:.2s}button:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 10px 25px #0005}button:disabled{opacity:.45;cursor:not-allowed;transform:none}.primary{background:linear-gradient(145deg,#c3a653,#92772d);color:#171522;border-color:#e4cc83;font-weight:800;text-align:center}.wide{grid-column:1/-1}.card{min-height:145px;text-align:center;display:grid;place-items:center}.card .q{font-size:36px;color:var(--gold)}small{display:block;color:#aaa9ba;margin-top:7px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:18px 0}.stat{padding:12px;border:1px solid var(--line);background:#0f1427;border-radius:12px;text-align:center;color:var(--muted);font-size:13px}.stat b{display:block;color:var(--gold);font-size:20px;margin-top:4px}
+.entity{margin:22px 0;padding:18px;border:1px solid #443c65;background:linear-gradient(145deg,#19182e,#11162a);border-radius:15px}.entity strong{color:#d8c37d}.entity .name{color:var(--violet);font-weight:800;font-size:18px}
+.flash{position:absolute;inset:0;background:#070913f5;z-index:20;display:grid;place-items:center;padding:30px}.flashbox{max-width:560px;text-align:center;padding:28px}.eye{font-size:56px;color:var(--gold);margin-bottom:8px}.flashbox h3{font-size:29px;margin:8px 0 12px}.flashbox p{font-size:17px}
+.progress{height:5px;background:#252a42;border-radius:9px;overflow:hidden;margin-top:22px}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--violet),var(--gold));width:0;transition:.4s}
+.hidden{display:none!important}.fade{animation:fade .35s ease}@keyframes fade{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+.end{border:1px solid #5a4b2c;padding:22px;border-radius:17px;background:#151528;text-align:center}
+@media(max-width:650px){#app{padding:10px}.content{padding:22px}.grid,.grid.two,.stats{grid-template-columns:1fr}.box{width:180px;height:140px}.bar{align-items:flex-start}}
+
+/* VEILORA start/end identity */
+body{background:#050505;color:#f7f0e5}
+#app{max-width:980px}
+.shell{border:1px solid #80652f;background:linear-gradient(145deg,#080808,#111014 65%,#17101b);box-shadow:0 30px 100px #000;min-height:720px}
+.veil-screen{min-height:680px;position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 22px;overflow:hidden;background:radial-gradient(ellipse at 50% 38%,#2c1a37 0%,#110d16 34%,#050505 72%)}
+.veil-screen:before,.veil-screen:after{content:"";position:absolute;pointer-events:none;z-index:-1}
+.veil-screen:before{inset:-25%;background:radial-gradient(ellipse at 50% 50%,#d8b35b18 0%,transparent 42%),radial-gradient(ellipse at 15% 70%,#bd6eaa18 0%,transparent 36%);animation:veilGlow 8s ease-in-out infinite alternate}
+.veil-screen:after{inset:0;background:linear-gradient(115deg,transparent 30%,#d7b15a0a 48%,transparent 62%);opacity:.8}
+.veil-mark{width:108px;height:108px;border:1px solid #c6a45d;border-radius:50%;display:grid;place-items:center;margin-bottom:24px;position:relative;box-shadow:0 0 38px #b18a3d20,inset 0 0 28px #a17c3020}
+.veil-mark:before{content:"";position:absolute;inset:12px;border:1px solid #b9964c;transform:rotate(45deg);border-radius:23%}
+.veil-mark:after{content:"✧";font-size:56px;line-height:1;color:#e4c66d;text-shadow:0 0 20px #e4c66d88}
+.veil-name{font:500 clamp(34px,8vw,58px)/1.1 Georgia,"Times New Roman",serif;letter-spacing:.22em;color:#e4c66d;text-shadow:0 0 24px #b58b3930;direction:ltr;margin:0 0 20px;padding-left:.22em}
+.veil-line{max-width:600px;color:#eee0c6;font-size:clamp(16px,3.5vw,21px);line-height:2;margin:0 0 28px}
+.veil-screen .primary{min-width:190px;min-height:58px;background:linear-gradient(135deg,#e8cf8d,#a78338);border:1px solid #f3dfa4;color:#17110a;box-shadow:0 8px 35px #c29b4520;text-align:center}
+.veil-credit{margin-top:44px;direction:ltr;color:#c8bda7;font-size:11px;line-height:2;letter-spacing:.07em}
+.veil-credit b{display:block;color:#e4c66d;font-size:14px;letter-spacing:.02em}
+.veil-credit .ar-rights{direction:rtl;letter-spacing:0;color:#d4c5a7;font-size:12px}
+.veil-transition{position:fixed;inset:0;z-index:1000;pointer-events:none;background:radial-gradient(ellipse at 50% 55%,#c6a45d10,transparent 40%),#060509;opacity:0;visibility:hidden;transition:opacity 1.15s ease,visibility 1.15s}
+.veil-transition.go{opacity:1;visibility:visible}
+.veil-mist{position:absolute;inset:-20%;background:radial-gradient(ellipse at 30% 55%,#d8d0e72b,transparent 35%),radial-gradient(ellipse at 70% 45%,#b79bd32b,transparent 38%),radial-gradient(ellipse at 50% 75%,#e8d9c21b,transparent 32%);filter:blur(28px);animation:mistMove 2.8s ease-in-out infinite alternate}
+.end-screen{background:radial-gradient(ellipse at 50% 25%,#39213b 0%,#17101c 30%,#050505 74%);justify-content:flex-start;padding-top:44px}
+.end-screen .veil-mark{width:72px;height:72px;margin-bottom:15px}
+.end-screen .veil-mark:after{font-size:38px}
+.end-screen .veil-name{font-size:clamp(27px,6vw,42px);margin-bottom:8px}
+.end-screen .end-philosophy{color:#e8c7d8;font-size:clamp(20px,4.5vw,27px);line-height:1.8;max-width:680px;margin:12px auto}
+.end-screen .end-note{color:#e8d9c4;max-width:650px;line-height:2;margin:0 auto 18px}
+.end-screen .tips{width:min(100%,650px);display:grid;gap:10px;margin:12px auto 24px;text-align:right}
+.end-screen .tip{border:1px solid #b894553d;border-right:3px solid #d8b45e;background:linear-gradient(100deg,#24182799,#0c0b0d);border-radius:12px;padding:12px 15px;color:#eadfd5;line-height:1.9}
+.end-screen .tip strong{color:#e8c7d8}
+.end-screen .stats{width:min(100%,650px);grid-template-columns:repeat(2,minmax(0,1fr))}
+.end-screen .stat{background:#120e14;border-color:#57402d}
+.end-screen .ownership{margin-top:18px}
+#game.start-mode{padding:0}
+@keyframes veilGlow{from{transform:scale(1);opacity:.65}to{transform:scale(1.12);opacity:1}}
+@keyframes mistMove{from{transform:translateX(-3%) translateY(2%) scale(1);opacity:.55}to{transform:translateX(3%) translateY(-2%) scale(1.12);opacity:.95}}
+@media(max-width:650px){.veil-screen{min-height:calc(100vh - 22px);padding:24px 18px}.end-screen{min-height:100vh;padding-top:32px}.end-screen .stats{grid-template-columns:repeat(2,minmax(0,1fr))}.veil-mark{width:88px;height:88px}}
+
+</style>
+</head>
+<body>
+<div class="veil-transition" id="veilTransition"><div class="veil-mist"></div></div><div id="app"><div class="shell"><div class="stars"></div><div id="flash" class="flash hidden"><div class="flashbox"><div class="eye">◉</div><h3 id="ft"></h3><p id="fx"></p><button class="primary" id="fb">متابعة</button></div></div><main class="content" id="game"></main></div></div>
+<script>
+(()=> {
+const game=document.getElementById("game"), flash=document.getElementById("flash"), ft=document.getElementById("ft"), fx=document.getElementById("fx"), fb=document.getElementById("fb");
+let S;
+function reset(){S={stage:1,cash:100,saving:0,reserve:0,debt:0,risk:0,care:0,events:0,purchases:[],first:""}}
+reset();
+S.stage=0;
+const fmt=n=>Math.round(n);
+const net=()=>S.cash+S.saving+S.reserve-S.debt;
+function flashMsg(title,text,next){ft.textContent=title;fx.textContent=text;flash.classList.remove("hidden");fb.onclick=()=>{flash.classList.add("hidden");next&&next()}}
+function head(n,title){return `<div class="bar"><span class="stage">المرحلة ${n}</span><span class="balance">${fmt(S.cash)} د.أ</span></div><div class="symbol">✦</div><h2>${title}</h2>`}
+function bind(selector,fn){document.querySelectorAll(selector).forEach(x=>x.onclick=()=>fn(x))}
+function creditMarkup(){return `<div class="veil-credit"><span>DESIGNED &amp; DEVELOPED BY</span><b>سيدرا السعودي</b><span>2026</span><div class="ar-rights">جميع الحقوق محفوظة ©</div></div>`}
+function landing(){
+game.classList.add("start-mode");
+game.innerHTML=`<section class="veil-screen"><div class="veil-mark" aria-hidden="true"></div><h1 class="veil-name">VEILORA</h1><p class="veil-line">ما تراه بداية… قد يكون أثرًا لنهاية.</p><button class="primary" id="beginJourney">ابدأ الرحلة</button>${creditMarkup()}</section>`;
+document.getElementById("beginJourney").onclick=()=>{
+  const transition=document.getElementById("veilTransition");
+  transition.classList.add("go");
+  setTimeout(()=>{game.classList.remove("start-mode");S.stage=1;render();window.scrollTo({top:0,behavior:"smooth"});setTimeout(()=>transition.classList.remove("go"),180)},700);
+};
+}
+function render(){switch(S.stage){case 0:return landing();case 1:return one();case 2:return two();case 3:return three();case 4:return four();case 5:return five();case 6:return six();case 7:return seven();case 8:return eight();case 9:return nine();case 10:return ten()}}
+function one(){
+game.innerHTML=head(1,"صندوقٌ لم يُفتح منذ زمن.")+`<p>وجدتَ الصندوق أمامك دون اسمٍ أو تفسير. وفوقه ورقة واحدة:</p><div class="quote">«إذا فُتح الصندوق، فلن تعود الأشياء كما كانت.»</div><div class="box" id="box"><span>◈</span></div><p style="text-align:center">في داخله <b style="color:var(--gold)">١٠٠ دينار</b>… وثلاثة مفاتيح.</p><div class="grid"><button data-k="gold">المفتاح الذهبي<small>رمزٌ لم يُفسَّر</small></button><button data-k="violet">المفتاح البنفسجي<small>لا يشبه البقية</small></button><button data-k="blue">المفتاح الأزرق<small>عليه أثرٌ قديم</small></button></div><div class="progress"><i style="width:10%"></i></div>`;
+bind("[data-k]",b=>{S.first=b.dataset.k;S.stage=2;flashMsg("الصندوق تذكّر اختيارك","«لن أغيّر ما فعلت… لكنني سأبني عليه.»",render)})
+}
+function two(){
+game.innerHTML=head(2,"ثلاثة أبواب، ولا توجد خريطة.")+`<p>ظهرت ثلاثة أبواب. لا تحمل أسماء؛ تحمل رموزًا فقط.</p><div class="grid"><button data-a="quiet">◒<br>الباب الصامت<small>وراءه شيء لا يُرى</small></button><button data-a="chance">◇<br>باب الفرصة<small>قد يمنحك شيئًا… أو يأخذ منك شيئًا</small></button><button data-a="need">□<br>باب الضرورة<small>خلفه طلبٌ لم يُسمَّ بعد</small></button></div><div class="entity"><span class="name">الحارس</span><br>«اختيار الباب لا يحدد النهاية… لكنه يحدد ما ستراه بعدها.»</div>`;
+bind("[data-a]",b=>{let a=b.dataset.a;if(a==="chance")S.risk++;if(a==="need")S.care++;S.stage=3;flashMsg("الباب انفتح","ولم يكن خلفه طريق… بل غرفة جديدة تنتظر قرارك.",render)})
+}
+function three(){
+game.innerHTML=head(3,"المئة لا يمكنها أن تبقى في مكانٍ واحد.")+`<p>أمامك ثلاثة مواضع. تستطيع أن تضع مالك حيث تشاء.</p><div class="grid"><button data-v="save">صندوق المستقبل<small>أودع ٣٠ دينارًا</small></button><button data-v="reserve">صندوق الطوارئ<small>أودع ٢٠ دينارًا</small></button><button data-v="keep">أُبقي المال معي<small>قد أحتاجه قريبًا</small></button></div><div class="quote">«ما تخبئه الآن… قد ينقذك لاحقًا.»</div>`;
+bind("[data-v]",b=>{let v=b.dataset.v;if(v==="save"&&S.cash>=30){S.cash-=30;S.saving+=30;S.care++}else if(v==="reserve"&&S.cash>=20){S.cash-=20;S.reserve+=20;S.care++}else S.risk++;S.stage=4;flashMsg("ظهر الحارس","«لا أراقب مقدار ما تملك… بل المكان الذي اخترت أن تضعه فيه.»",render)})
+}
+function four(){
+game.innerHTML=head(4,"السوق الذي لا يظهر على الخرائط.")+`<p>أضواء خافتة. ثلاث واجهات. وكل واحدة تعرض شيئًا مختلفًا.</p><div class="grid"><button data-p="time">⌛ وقتٌ وراحة<small>١٠ د.أ</small></button><button data-p="chance">✧ فرصة مجهولة<small>١٥ د.أ</small></button><button data-p="desire">◆ رغبة شخصية<small>١٢ د.أ</small></button></div><div id="pm"></div>`;
+bind("[data-p]",b=>{let p=b.dataset.p,c=p==="time"?10:p==="chance"?15:12;if(S.cash<c){document.getElementById("pm").innerHTML='<div class="quote">لا يكفي ما في يدك. بعض الأبواب تُغلق قبل أن تصل إليها.</div>';return}S.cash-=c;S.purchases.push(p);if(p==="chance")S.risk++;if(p==="time")S.care++;S.stage=5;flashMsg("اختفى البائع","لكن القطعة التي اشتريتها لم تكن الشيء الوحيد داخل الكيس.",render)})
+}
+function five(){
+game.innerHTML=head(5,"الشيء الذي لا تراه.")+`<p>أربع بطاقات مقلوبة. يُسمح لك بكشف بطاقة واحدة فقط.</p><div class="grid">${[1,2,3,4].map(i=>`<button class="card" data-c="${i}"><span class="q">?</span>البطاقة ${i}</button>`).join("")}</div><div class="quote">«بعض النتائج لا تُعرف إلا بعد أن تختار.»</div>`;
+bind("[data-c]",b=>{document.querySelectorAll("[data-c]").forEach(x=>x.disabled=true);let i=(+b.dataset.c+S.first.length)%4,msg=["مكافأة غير متوقعة: +١٢ د.أ","مصاريف طارئة: -٨ د.أ","فرصة مرّت دون أثر","بديل أقل تكلفة: +١٠ د.أ"][i];if(i===0)S.cash+=12;if(i===1)S.cash=Math.max(0,S.cash-8);if(i===3)S.cash+=10;S.events++;S.stage=6;flashMsg("انقلبت البطاقة",msg,render)})
+}
+function six(){
+game.innerHTML=head(6,"الظل يتذكّر.")+`<p>عاد الشيء الذي اشتريته في السوق إلى الواجهة.</p><div class="entity"><span class="name">الظل</span><br>«أنا لا أغيّر قرارك… أنا فقط أذكّرك بثمنه.»</div><div class="grid"><button data-x="keep">أحتفظ بما اخترت</button><button data-x="return">أعيده وأسترد نصف قيمته</button><button data-x="learn">أتعلم من القرار وأكمل</button></div>`;
+bind("[data-x]",b=>{let x=b.dataset.x;if(x==="return"&&S.purchases.length){let p=S.purchases.at(-1),c=p==="time"?10:p==="chance"?15:12;S.cash+=Math.floor(c/2)}if(x==="learn")S.care++;S.stage=7;render()})
+}
+function seven(){
+game.innerHTML=head(7,"وصل الزائر.")+`<p>طُرق الباب ثلاث مرات. ظهر شخص لا تعرفه وقال:</p><div class="quote">«أحتاج إلى ٢٠ دينارًا. لا تسألني لماذا وصلت الآن… اسأل نفسك: هل كنت مستعدًا؟»</div><div class="grid"><button data-z="cash">أدفع من المال المتاح</button><button data-z="reserve">أستخدم صندوق الطوارئ</button><button data-z="borrow">أستدين</button><button data-z="alt">أبحث عن حل أقل كلفة</button></div>`;
+bind("[data-z]",b=>{let z=b.dataset.z;if(z==="cash"){S.cash=Math.max(0,S.cash-20)}else if(z==="reserve"){if(S.reserve>=20)S.reserve-=20;else S.cash=Math.max(0,S.cash-20)}else if(z==="borrow"){S.debt+=20}else S.care++;S.events++;S.stage=8;render()})
+}
+function eight(){
+game.innerHTML=head(8,"المرآة لا تكذب.")+`<p>للمرة الأولى ترى أثر قراراتك مجتمعًا أمامك.</p><div class="stats"><div class="stat">المتاح<b>${fmt(S.cash)} د.أ</b></div><div class="stat">المستقبل<b>${fmt(S.saving)} د.أ</b></div><div class="stat">الطوارئ<b>${fmt(S.reserve)} د.أ</b></div><div class="stat">الصافي<b>${fmt(net())} د.أ</b></div></div><div class="quote">قرارات الحذر: ${S.care} · قرارات المخاطرة: ${S.risk} · الأحداث: ${S.events}<br><br>«القرار لا ينتهي عندما تضغط عليه… بل عندما ترى أثره.»</div><button class="primary wide" id="next8">متابعة</button>`;
+document.getElementById("next8").onclick=()=>{S.stage=9;render()}
+}
+function nine(){
+game.innerHTML=head(9,"الباب الأخير.")+`<p>لم يبقَ سوى جزء من الطريق. ثلاثة أقفال تنتظر يدك.</p><div class="grid"><button data-f="need">أختار ما أحتاج إليه</button><button data-f="desire">أختار ما أرغب فيه</button><button data-f="keep">أُبقي ما تبقّى</button></div><div class="quote">«لن تعرف نتيجة الباب الذي لم تختره.»</div>`;
+bind("[data-f]",b=>{let f=b.dataset.f;if(f==="need"){S.cash=Math.max(0,S.cash-8);S.care++}if(f==="desire"){S.cash=Math.max(0,S.cash-12);S.risk++}S.stage=10;flashMsg("الصوت الأخير","«انتهت المئة… لكن أثر قراراتك لم ينتهِ.»",render)})
+}
+function ten(){
+let type=S.care>=S.risk+2?"يضع المستقبل في حسابه":S.risk>=S.care+2?"يمنح الفرص مساحة":"يتحرك بين الرغبة والضرورة بتوازن";
+game.classList.remove("start-mode");
+game.innerHTML=`<section class="veil-screen end-screen">
+<div class="veil-mark" aria-hidden="true"></div>
+<h1 class="veil-name">VEILORA</h1>
+<div class="end"><h2 style="color:var(--gold);margin-bottom:8px">${type}</h2><p style="margin:0">لم تكن المئة هي القصة. كانت مجرد بداية كشفت كيف تصنع القرار.</p></div>
+<div class="stats"><div class="stat">المتاح<b>${fmt(S.cash)} د.أ</b></div><div class="stat">المستقبل<b>${fmt(S.saving)} د.أ</b></div><div class="stat">الطوارئ<b>${fmt(S.reserve)} د.أ</b></div><div class="stat">الصافي<b>${fmt(net())} د.أ</b></div></div>
+<h2 class="end-philosophy">ليس كل خطأ خسارة، ولا كل نهاية تعني الفشل.</h2>
+<p class="end-note">أحيانًا تمنحك التجربة ما لا يمنحك إياه الطريق السهل: فهمًا أعمق لنفسك، ووعيًا أكبر بخياراتك، وفرصة لتبدأ من جديد.</p>
+<div class="tips">
+<div class="tip"><strong>تعلّم:</strong> لا تجعل خطأ الأمس يتكرر غدًا؛ افهمه وخذ منه ما ينفعك.</div>
+<div class="tip"><strong>راجع:</strong> تغيير خطتك ليس ضعفًا، بل شجاعة حين تكشف لك التجربة طريقًا أفضل.</div>
+<div class="tip"><strong>ابدأ من جديد:</strong> ما تبقّى بين يديك قد يكون بداية مختلفة، لا نهاية الحكاية.</div>
+</div>
+<button class="primary wide" id="again">عُد إلى البداية وحاول من جديد</button>
+${creditMarkup()}
+</section>`;
+document.getElementById("again").onclick=()=>{reset();S.stage=1;render();window.scrollTo({top:0,behavior:"smooth"})}
+}
+render();
+})();
+</script>
+
+</body>
+</html>
